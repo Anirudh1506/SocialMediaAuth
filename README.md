@@ -1,0 +1,1 @@
+Welcome to a secure Social Media Image Posting application
