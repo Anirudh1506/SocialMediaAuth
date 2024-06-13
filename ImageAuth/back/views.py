@@ -13,9 +13,18 @@ class CreateUser(generics.CreateAPIView):
 
 
 class CreatePost(generics.ListCreateAPIView):
-    permission_classes=[AllowAny]
+    permission_classes=[IsAuthenticated]
     serializer_class=PostSerial
-    queryset=Posts.objects.all()
+    
+    def get_queryset(self):
+        user=self.request.user
+        return Posts.objects.all(user=user)
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)
+        else:
+            print(serializer.errors)
     
     
     
